@@ -87,7 +87,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 #### Architecture
     In this setup MetalLB is external Load Balancer which is making services available outside the cluster. and NGINX Ingress is allowing traffic inside the cluster.
     MetalLB setup is in utilities section.
-![al3](Kubernetes/dataplaneabs.png)
+![al3](https://github.com/Apurv3377/Kubernetes/blob/master/dataplaneabs.png)
 
 ## Useful Links
     Assorted Bookmarks in bookmarks1.html
