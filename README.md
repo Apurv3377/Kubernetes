@@ -29,7 +29,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
         paramiko for monitoring thread, kubernetes watch and config for object binding, resource.sh utility script should be present in home dir.
     
 ### Architecture
-![al1](Kubernetes/scheduler.png)
+![al1](https://github.com/Apurv3377/Kubernetes/blob/master/scheduler.png)
     
    
 
@@ -73,7 +73,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 
 
 #### Architecture
-![al2](Kubernetes/ColorBasedR.png)
+![al2](https://github.com/Apurv3377/Kubernetes/blob/master/ColorBasedR.png)
 
 #### Manual Trigger with Abstraction of Data Plane
     
