@@ -29,7 +29,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
         paramiko for monitoring thread, kubernetes watch and config for object binding, resource.sh utility script should be present in home dir.
     
 ### Architecture
-<img align="center" src="kubernetes/scheduler.png">
+<img align="center" src="Kubernetes/scheduler.png">
     
    
 
@@ -73,7 +73,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 
 
 #### Architecture
-<img align="center" src="kubernetes/ColorBasedR.png">
+<img align="center" src="Kubernetes/ColorBasedR.png">
 
 #### Manual Trigger with Abstraction of Data Plane
     
@@ -87,7 +87,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 #### Architecture
     In this setup MetalLB is external Load Balancer which is making services available outside the cluster. and NGINX Ingress is allowing traffic inside the cluster.
     MetalLB setup is in utilities section.
-<img align="center" src="kubernetes/dataplaneabs.png">
+<img align="center" src="Kubernetes/dataplaneabs.png">
 
 ## Useful Links
     Assorted Bookmarks in bookmarks1.html
