@@ -16,7 +16,7 @@
         paramiko for monitoring thread, kubernetes watch and config for object binding, resource.sh utility script should be present in home dir.
     
 ### Architecture
-<img align="center" src="kubernetes/scheduler.png">
+<img align="center" src="https://github.com/Apurv3377/Kubernetes/blob/master/scheduler.png">
     
    
 
