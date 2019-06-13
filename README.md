@@ -16,7 +16,7 @@
         paramiko for monitoring thread, kubernetes watch and config for object binding, resource.sh utility script should be present in home dir.
     
 ### Architecture
-<img align="center" src="kubernetes/scheduler.png">
+<img align="center" src="https://github.com/Apurv3377/Kubernetes/blob/master/scheduler.png">
     
    
 
@@ -60,7 +60,7 @@
 
 
 #### Architecture
-<img align="center" src="kubernetes/ColorBasedR.png">
+<img align="center" src="https://github.com/Apurv3377/Kubernetes/blob/master/ColorBasedR.png">
 
 #### Manual Trigger with Abstraction of Data Plane
     
@@ -74,7 +74,7 @@
 #### Architecture
     In this setup MetalLB is external Load Balancer which is making services available outside the cluster. and NGINX Ingress is allowing traffic inside the cluster.
     MetalLB setup is in utilities section.
-<img align="center" src="kubernetes/dataplaneabs.png">
+<img align="center" src="https://github.com/Apurv3377/Kubernetes/blob/master/dataplaneabs.png">
 
 ## Useful Links
     Assorted Bookmarks in bookmarks1.html
@@ -88,7 +88,7 @@
         sh resource.sh [node] [cpu/mem] [req/lim] [per]
         
 ### MetalLB Setup
-<img width="200" height="200" src="kubernetes/logo.png ">
+<img width="200" height="200" src="https://github.com/Apurv3377/Kubernetes/blob/master/logo.png ">
 
 - **Installation with Kubernetes manifests**
 
@@ -120,7 +120,7 @@ The following configuration gives MetalLB control over IPs from 172.18.0.50 to 1
     
 ### Harbor Setup
 
-<img width="520" height="200" src="kubernetes/harbor_logo.png ">
+<img width="520" height="200" src="https://github.com/Apurv3377/Kubernetes/blob/master/harbor_logo.png ">
 
 #### Step 1. Install Docker and docker-compose on a Harbor Ubuntu Server
 
@@ -344,7 +344,7 @@ The following steps have to be repeated for each of your Kubernetes worker nodes
 
 ### NGINX Ingress Setup
 
-<img width="220" height="200" src="kubernetes/nginx.png ">
+<img width="220" height="200" src="https://github.com/Apurv3377/Kubernetes/blob/master/nginx.png ">
 
 #### Prerequisites
 
@@ -415,7 +415,7 @@ Run the following command to make sure that the Ingress controller pods are runn
     
 ### Prometheus and Grafana Setup
 
-<img width="320" height="200" src="kubernetes/grafana-prometheus.png ">
+<img width="320" height="200" src="https://github.com/Apurv3377/Kubernetes/blob/master/grafana-prometheus.png ">
 
 #### Quick start
 
