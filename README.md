@@ -1,18 +1,5 @@
 # Kubernetes
 
-Resource.sh 
-
-Retrieve CPU and Memory usage on the Node. In terms of Requested and Limits. Uses Kubectl internally..
-
-echo  'Usage : '
-
-echo  'sh resource.sh [node] [cpu/mem] [req/lim] [per]'
-
-echo 'req : Requests, lim : Limits, per : Percentage'
-
-
-# Kubernetes
-
 ## Customized Scheduler
 
     Script : scheduler.py
@@ -29,7 +16,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
         paramiko for monitoring thread, kubernetes watch and config for object binding, resource.sh utility script should be present in home dir.
     
 ### Architecture
-![al1](https://github.com/Apurv3377/Kubernetes/blob/master/scheduler.png)
+<img align="center" src="kubernetes/scheduler.png">
     
    
 
@@ -73,7 +60,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 
 
 #### Architecture
-![al2](https://github.com/Apurv3377/Kubernetes/blob/master/ColorBasedR.png)
+<img align="center" src="kubernetes/ColorBasedR.png">
 
 #### Manual Trigger with Abstraction of Data Plane
     
@@ -87,7 +74,7 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 #### Architecture
     In this setup MetalLB is external Load Balancer which is making services available outside the cluster. and NGINX Ingress is allowing traffic inside the cluster.
     MetalLB setup is in utilities section.
-![al3](https://github.com/Apurv3377/Kubernetes/blob/master/dataplaneabs.png)
+<img align="center" src="kubernetes/dataplaneabs.png">
 
 ## Useful Links
     Assorted Bookmarks in bookmarks1.html
@@ -105,7 +92,6 @@ echo 'req : Requests, lim : Limits, per : Percentage'
 ### Harbor
         
       
-
 
 
 
