@@ -159,6 +159,72 @@ iptables uses the rules installed on the Node by kube-proxy in response to Servi
         Retrieve CPU and Memory usage on the Node. In terms of Requested and Limits. Uses Kubectl internally.
         
         sh resource.sh [node] [cpu/mem] [req/lim] [per]
+
+### Memory Available using cgroup
+
+        Script calculates below memroy parameters using root cgroup.
+        
+        1. "memory.capacity_in_bytes" reports a total memory assigned to a worker node.
+        2. "memory.usage_in_bytes" reports the total current memory usage by processes in the cgroup (in bytes).
+        3. "memory.total_inactive_file" reports file-backed memory on inactive LRU list, in bytes.
+        4. "memory.working_set " reports substraction of total inactive file from current usage.
+        5. "memory.available_in_bytes" reports substraction of working set memory from total capacity
+        
+        Available memory is used to decide the pod placement in custmised scheduler. Based on last 5 minutes usage alog with current usage together placement decision is taken by the scheduler.
+        
+        sh memory-availabe.sh
+
+### Clean up Commands
+
+        1. delete all evicted pods from all namespaces
+        kubectl get pods --all-namespaces | grep Evicted | awk '{print $2 " --namespace=" $1}' | xargs kubectl delete pod
+        
+        2. delete all containers in ImagePullBackOff state from all namespaces
+        kubectl get pods --all-namespaces | grep 'ImagePullBackOff' | awk '{print $2 " --namespace=" $1}' | xargs kubectl delete pod
+
+        3. delete all containers in ImagePullBackOff or ErrImagePull or Evicted state from all namespaces
+        kubectl get pods --all-namespaces | grep -E 'ImagePullBackOff|ErrImagePull|Evicted' | awk '{print $2 " --namespace=" $1}' | xargs kubectl delete pod
+        
+        sh clear_garbage_pods.sh 
+        
+### Container Runtimes (Docker)
+    Changing the settings such that your container runtime and kubelet use systemd as the cgroup driver stabilized the system.
+    
+        1. Install Docker CE
+        Set up the repository:
+        Install packages to allow apt to use a repository over HTTPS
+        apt-get update && apt-get install apt-transport-https ca-certificates curl software-properties-common
+
+        2. Add Docker’s official GPG key
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+        3. Add Docker apt repository.
+        add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+
+        4. Install Docker CE.
+        apt-get update && apt-get install docker-ce=18.06.2~ce~3-0~ubuntu
+
+        5. Setup daemon.
+        cat > /etc/docker/daemon.json <<EOF
+        {
+        "exec-opts": ["native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+        "max-size": "100m"
+         },
+        "storage-driver": "overlay2"
+        }
+        EOF
+
+        mkdir -p /etc/systemd/system/docker.service.d
+
+        6.  Restart docker.
+        systemctl daemon-reload
+        systemctl restart docker
+
         
 ### MetalLB Setup
 <img width="200" height="200" src="https://github.com/Apurv3377/Kubernetes/blob/master/logo.png ">
