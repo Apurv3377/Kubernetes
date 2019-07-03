@@ -1,5 +1,78 @@
 # Kubernetes
 
+## Kubernetes Basic Components
+
+- **1. Kubernetes API server**
+
+    In Kubernetes, everything is an API call served by the Kubernetes API server (kube-apiserver). The API server is a gateway to an etcd datastore that maintains the desired state of your application cluster. 
+    To update the state of a Kubernetes cluster, you make API calls to the API server describing your desired state.
+
+- **2. Controllers**
+
+    Controllers are the core abstraction used to build Kubernetes.Once you’ve declared the desired state of your cluster using the API server, controllers ensure that the cluster’s current state matches the desired state by continuously watching the state of the API server and reacting to any changes. 
+    Controllers operate using a simple loop that continuously checks the current state of the cluster against the desired state of the cluster. If there are any differences, controllers perform tasks to make the current state match the desired state. 
+    
+    In pseudo-code:
+        ```
+        while true:
+          X = currentState()
+          Y = desiredState()
+        
+          if X == Y:
+            return  # Do nothing
+          else:
+            do(tasks to get to Y)
+        ```
+    For example, when you create a new Pod using the API server, the Kubernetes scheduler (a controller) notices the change and makes a decision about where to place the Pod in the cluster.It then writes that state change using the API server (backed by etcd). The kubelet (a controller) then notices that new change and sets up the required networking functionality to make the Pod reachable within the cluster.
+    Here, two separate controllers react to two separate state changes to make the reality of the cluster match the intention of the user.
+
+- **3. Pods**
+
+    A Pod is the atom of Kubernetes — the smallest deployable object for building applications. A single Pod represents a running workload in your cluster and encapsulates one or more Docker containers, any required storage, and a unique IP address. Containers that make up a pod are designed to be co-located and scheduled on the same machine.
+
+- **4. Nodes**
+
+    Nodes are the machines running the Kubernetes cluster. These can be bare metal, virtual machines, or anything else. The word hosts is often used interchangeably with Nodes.
+
+- **5. Scheduler**
+
+    **Idea :** After a user or a controller creates a Pod, the Kubernetes Scheduler, monitoring the Object Store for unassigned Pods, will assign the Pod to a Node. 
+    Then, the Kubelet, monitoring the Object Store for assigned Pods, will execute the Pod.
+
+    <img align="center" src="https://github.com/Apurv3377/Kubernetes/blob/master/s1.png">
+    
+    **The Control Loop**
+    The Kubernetes Scheduler monitors the Kubernetes Object Store and chooses an unbound Pod of the highest priority to perform either a Scheduling Step or a Preemption Step.
+    
+    **Scheduling Step**
+    For a given Pod, the Scheduling Step is enabled if there exists at least one Node, such that the Node is feasible to host the Pod.If the Scheduling Step is enabled, the Scheduler will bind the Pod to a feasible Node, such that the binding will achieve the highest possible viability.
+    If the Scheduling Step is not enabled, the Scheduler will attempt to perform a Preemption Step.         
+    Feasibility :         
+    - Schedulability and Lifecycle Phase    
+    - Resource Requirements and Resource Availability     
+    - Node Selector    
+    - Node Taints and Pod Tolerations    
+    
+    **Preemption Step**
+    For a given Pod, the Preemption Step is enabled if there exists at least one Node, such that the Node is feasible to host the Pod if a subset of Pods with lower priorities bound to this Node were to be deleted.
+
+There are several other components which are not described here but are integral part of the kubernetes cluster. To explore more about this please refer below mentioned link.      
+[Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
+
+
+## Kubernetes Networking Model
+
+- **Life of a packet: Pod-to-Pod, same Node**
+![sample](https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/pod-to-pod-same-node.gif)       
+Pod 1 sends a packet to its own Ethernet device eth0 which is available as the default device for the Pod. For Pod 1, eth0 is connected via a virtual Ethernet device to the root namespace, veth0. The bridge cbr0 is configured with veth0 a network segment attached to it. Once the packet reaches the bridge, the bridge resolves the correct network segment to send the packet to — veth1 using the ARP protocol. When the packet reaches the virtual device veth1, it is forwarded directly to Pod 2’s namespace and the eth0 device within that namespace. 
+Throughout this traffic flow, each Pod is communicating only with eth0 on localhost and the traffic is routed to the correct Pod.
+
+- **Life of a packet: Pod to Service**
+![sample](https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/pod-to-service.gif)        
+When routing a packet between a Pod and Service, the journey begins in the same way as before. The packet first leaves the Pod through the eth0 interface attached to the Pod’s network namespace. Then it travels through the virtual Ethernet device to the bridge. The ARP protocol running on the bridge does not know about the Service and so it transfers the packet out through the default route — eth0. Here, something different happens. Before being accepted at eth0, the packet is filtered through iptables. After receiving the packet, 
+iptables uses the rules installed on the Node by kube-proxy in response to Service or Pod events to rewrite the destination of the packet from the Service IP to a specific Pod IP. The packet is now destined to reach Pod 4 rather than the Service’s virtual IP. The Linux kernel’s conntrack utility is leveraged by iptables to remember the Pod choice that was made so future traffic is routed to the same Pod. In essence, iptables has done in-cluster load balancing directly on the Node. 
+
+
 ## Customized Scheduler
 
     Script : scheduler.py
